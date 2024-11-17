@@ -1,13 +1,11 @@
-﻿version: '3.8'
-services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=StrongPassword123!
+﻿services:
+  webapp:
+    build: .
     ports:
-      - "1433:1433"
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MyDatabase;User Id=sa;Password=StrongPassword123!
     networks:
       - app-network
 
@@ -15,5 +13,5 @@ networks:
   app-network:
     driver: bridge
 
-volumes:
-  sql_data:
+
+

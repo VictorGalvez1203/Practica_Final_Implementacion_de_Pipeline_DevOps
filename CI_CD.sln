@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI_CD", "CI_CD\CI_CD.csproj", "{B01C466B-2BB6-41DD-8473-CDFA14C7AAED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI_CD", "CI_CD\CI_CD.csproj", "{B01C466B-2BB6-41DD-8473-CDFA14C7AAED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{2FC5E4C9-E8E4-45AF-ABFA-97E13741FE4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
