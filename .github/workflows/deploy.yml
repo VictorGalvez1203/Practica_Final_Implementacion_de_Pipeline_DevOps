@@ -35,6 +35,7 @@ jobs:
     # 6. Ejecutar la aplicación localmente
     - name: Run Application
       run: |
-        dotnet ./publish/CI_CD.dll
+        dotnet ./publish/CI_CD.dll --urls http://localhost:8080
+
 
 
