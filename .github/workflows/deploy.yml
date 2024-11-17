@@ -32,9 +32,9 @@ jobs:
     - name: Publish project
       run: dotnet publish --configuration Release CI_CD/CI_CD.csproj -o ./publish
       
-     # 6. Deploy (Ejemplo usando SCP para copiar archivos a un servidor remoto)
-    - name: Deploy to Server
+    # 6. Ejecutar la aplicación localmente
+    - name: Run Application
       run: |
-        scp -P 8088 -r ./publish/* user@my-server.local:/path/to/webapp
+        dotnet ./publish/CI_CD.dll
 
 
