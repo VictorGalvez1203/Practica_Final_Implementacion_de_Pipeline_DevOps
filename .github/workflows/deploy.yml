@@ -31,19 +31,10 @@ jobs:
     # 5. Publicar
     - name: Publish project
       run: dotnet publish --configuration Release CI_CD/CI_CD.csproj -o ./publish
-
-    # 6. Configurar la clave privada para SSH (en lugar de usar secretos)
-    - name: Configure SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H 10.0.0.32 >> ~/.ssh/known_hosts
       
-    # 7. Deploy (Ejemplo usando SCP para copiar archivos a un servidor remoto)
+     # 6. Deploy (Ejemplo usando SCP para copiar archivos a un servidor remoto)
     - name: Deploy to Server
       run: |
-        scp -P 8088 -r ./publish/* user@10.0.0.32:/path/to/webapp
-      env:
-        PRIVATE_KEY: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}  # Utiliza secretos de GitHub Actions para la clave SSH
+        scp -P 8088 -r ./publish/* user@my-server.local:/path/to/webapp
+
 
