@@ -22,15 +22,15 @@ jobs:
 
     # 3. Restaurar dependencias
     - name: Restore dependencies
-      run: dotnet restore CI_CD\CI_CD.csproj
+      run: dotnet restore CI_CD/CI_CD.csproj
 
     # 4. Compilar
     - name: Build project
-      run: dotnet build --configuration Release CI_CD\CI_CD.csproj
+      run: dotnet build --configuration Release CI_CD/CI_CD.csproj
 
     # 5. Publicar
     - name: Publish project
-      run: dotnet publish --configuration Release CI_CD\CI_CD.csproj -o ./publish
+      run: dotnet publish --configuration Release CI_CD/CI_CD.csproj -o ./publish
 
     # 6. Deploy (puedes usar FTP, Azure, AWS, etc.)
     - name: Deploy to Server
