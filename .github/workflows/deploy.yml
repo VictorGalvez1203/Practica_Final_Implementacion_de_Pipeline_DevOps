@@ -35,7 +35,21 @@ jobs:
     # 6. Ejecutar la aplicación localmente
     - name: Run Application
       run: |
-        dotnet ./publish/CI_CD.dll --urls http://localhost:8080
+        dotnet ./publish/CI_CD.dll --urls http://localhost:8080 &
+
+     # 7. Verificar que la aplicación esté corriendo
+    - name: Verify Application
+      run: |
+        echo "Esperando a que la aplicación inicie..."
+        sleep 10 # Dar tiempo para que la aplicación inicie
+        curl -I http://localhost:8080 || exit 1
+        echo "La aplicación está corriendo correctamente en http://localhost:8080"
+
+    # 8. Detener la aplicación (opcional)
+    - name: Stop Application
+      run: |
+        pkill -f "dotnet ./publish/CI_CD.dll"
+        echo "Aplicación detenida."
 
 
 
