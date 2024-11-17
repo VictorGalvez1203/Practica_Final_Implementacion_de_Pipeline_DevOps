@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mi aplicación ASP.NET MVC</title>
+    <style>
+        /* Estilos de la página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00b8b8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background-color: #d9f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00b8b8;
+            color: white;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container body-content">
+        <!-- Aquí se inyecta el contenido específico de cada vista -->
+        @RenderBody()
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Marca</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @* Aquí usarías un foreach en Razor si estás pasando un modelo con los productos *@
+                    @foreach (var item in Model)
+                    {
+                        <tr onclick="SeleccionarFila('@item.ID', '@item.Nombre', '@item.Descripcion', '@item.Marca', '@item.Precio', '@item.Stock');">
+                            <td>@item.ID</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Descripcion</td>
+                            <td>@item.Marca</td>
+                            <td>@item.Precio</td>
+                            <td>@item.Stock</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="action-buttons">
+            <input type="text" id="TextBoxID" placeholder="ID a Editar/Eliminar" />
+            <button id="ButtonEditar" onclick="EditarProducto()">Editar</button>
+            <button id="ButtonEliminar" onclick="EliminarProducto()">Eliminar</button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function SeleccionarFila(id, nombre, descripcion, marca, precio, stock) {
+            document.getElementById('TextBoxID').value = id;
+        }
+
+        function EditarProducto() {
+            // Lógica para editar el producto
+        }
+
+        function EliminarProducto() {
+            // Lógica para eliminar el producto
+        }
+    </script>
+</body>
+</html>

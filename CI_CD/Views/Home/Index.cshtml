@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Inventario</title>
+    <style>
+        /* Estilos de la página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00b8b8;
+            display: flex;
+            flex-direction: column; /* Permite que el contenido se alinee en columna */
+            min-height: 100vh; /* Asegura que el cuerpo ocupe toda la altura de la ventana */
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            background-color: #d9f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            flex: 1; /* Ocupa el espacio restante disponible */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00b8b8;
+            color: white;
+        }
+
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .input-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .input-container input {
+                margin-bottom: 10px;
+                padding: 8px;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .input-container button {
+                padding: 30px;
+                background-color: #00b8b8;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+                .input-container button:hover {
+                    background-color: #009999;
+                }
+
+        footer {
+            text-align: center;
+            background-color: #007575;
+            color: white;
+            padding: 10px 0;
+            margin-top: auto; /* Empuja el footer al final de la página */
+        }
+    </style>
+    <style>
+        .action-buttons button {
+            padding: 15px 25px; /* Aumenta el espacio interno del botón */
+            font-size: 18px; /* Aumenta el tamaño del texto */
+            border-radius: 5px; /* Opcional: añade bordes redondeados */
+        }
+
+        #ButtonGuardarProducto {
+            background-color: #28a745; /* Cambia el color de fondo (verde para guardar) */
+            color: white;
+        }
+
+        #ButtonEditar {
+            background-color: #ffc107; /* Cambia el color de fondo (amarillo para editar) */
+            color: white;
+        }
+
+        #ButtonEliminar {
+            background-color: #dc3545; /* Cambia el color de fondo (rojo para eliminar) */
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed; /* Cambia el cursor para indicar que no es clickeable */
+        }
+
+
+        /* Agregar hover para mejorar la experiencia de usuario */
+        .action-buttons button:hover {
+            opacity: 0.9; /* Añade un ligero efecto al pasar el cursor */
+        }
+    </style>
+</head>
+<body>
+    <!-- Enviar los datos por POST al controlador -->
+    <form method="post" action="/Home/Guardar">
+        <div class="container">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Marca</th>
+                            <th>Precio</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr onclick="SeleccionarFila('@item.Id', '@item.Nombre', '@item.Descripcion', '@item.Marca', '@item.Precio', '@item.Stock');">
+                                <td>@item.Id</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Descripcion</td>
+                                <td>@item.Marca</td>
+                                <td>@item.Precio</td>
+                                <td>@item.Stock</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Campos de entrada para agregar o editar un producto -->
+            <div class="input-container">
+                <input type="text" id="NuevoNombre" name="Nombre" placeholder="Nombre del Producto" required />
+                <input type="text" id="NuevaDescripcion" name="Descripcion" placeholder="Descripción del Producto" required />
+                <input type="text" id="NuevaMarca" name="Marca" placeholder="Marca del Producto" required />
+                <input type="number" id="NuevoPrecio" name="Precio" placeholder="Precio del Producto" step="0.01" required />
+                <input type="number" id="NuevoStock" name="Stock" placeholder="Stock del Producto" required />
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="action-buttons">
+                <input type="text" id="TextBoxID" name="Id" placeholder="ID Seleccionado" readonly style="width:150px;" />
+                <button type="submit" id="ButtonGuardarProducto" name="action" value="guardar">Guardar Producto</button>
+                <button type="submit" id="ButtonEditar" name="action" value="editar" disabled>Editar Producto</button>
+                <button type="button" id="ButtonEliminar" onclick="eliminarProducto()">Eliminar</button>
+            </div>
+
+            <!-- Hidden field para almacenar el ID seleccionado -->
+            <input type="hidden" id="HiddenFieldID" name="Id" />
+        </div>
+    </form>
+
+    <footer>
+        <p>&copy; Victor Eulogio Galvez Faña 2023-1836</p>
+    </footer>
+
+    <script>
+        function SeleccionarFila(id, nombre, descripcion, marca, precio, stock) {
+            // Asigna los valores de la fila seleccionada a los campos de texto
+            document.getElementById('NuevoNombre').value = nombre;
+            document.getElementById('NuevaDescripcion').value = descripcion;
+            document.getElementById('NuevaMarca').value = marca;
+            document.getElementById('NuevoPrecio').value = precio;
+            document.getElementById('NuevoStock').value = stock;
+
+            // También asigna el ID seleccionado a los campos ocultos
+            document.getElementById('TextBoxID').value = id;
+            document.getElementById('HiddenFieldID').value = id;
+
+            // Habilita el botón Editar
+            document.getElementById('ButtonEditar').disabled = false;
+            // Cambia la acción del formulario a "editar"
+            document.forms[0].action = '/Home/Editar';
+        }
+
+        function eliminarProducto() {
+            var id = document.getElementById('HiddenFieldID').value;
+            if (id) {
+                var confirmDelete = confirm('¿Estás seguro de que deseas eliminar este producto?');
+                if (confirmDelete) {
+                    // Realiza el POST a eliminar el producto
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/Home/Eliminar';
+
+                    // Crea un campo de entrada con el ID
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'Id';
+                    input.value = id;
+                    form.appendChild(input);
+
+                    // Enviar el formulario para eliminar el producto
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            } else {
+                alert('Por favor, selecciona un producto para eliminar.');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
