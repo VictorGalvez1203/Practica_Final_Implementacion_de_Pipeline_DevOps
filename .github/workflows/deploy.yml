@@ -50,6 +50,7 @@ jobs:
       run: |
         pkill -f "dotnet ./publish/CI_CD.dll"
         echo "Aplicación detenida."
+        
 
 
 
