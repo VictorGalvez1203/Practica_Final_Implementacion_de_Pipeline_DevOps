@@ -1,0 +1,39 @@
+name: Deploy WebApp
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Clonar el repositorio
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Configurar .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0
+
+    # 3. Restaurar dependencias
+    - name: Restore dependencies
+      run: dotnet restore CI_CD/CI_CD.csproj
+
+    # 4. Compilar
+    - name: Build project
+      run: dotnet build --configuration Release CI_CD/CI_CD.csproj
+
+    # 5. Publicar
+    - name: Publish project
+      run: dotnet publish --configuration Release CI_CD/CI_CD.csproj -o ./publish
+
+    # 6. Deploy (puedes usar FTP, Azure, AWS, etc.)
+    - name: Deploy to Server
+      run: |
+        # Ejemplo usando scp para copiar archivos al servidor
+        scp -r ./publish user@server:/path/to/webapp
