@@ -14,6 +14,9 @@ Este proyecto consiste en diseñar e implementar un pipeline DevOps completo par
 ## 🎯 Objetivo
 Desarrollar una solución funcional que integre:
 
+<![image](https://github.com/user-attachments/assets/a81e51aa-d648-404b-8724-5455ddcc93ad)>
+
+
 1. **Aplicación web simple**: Frontend y backend básicos.
 2. **Pipeline CI/CD**: Configurado para realizar despliegues automatizados.
 3. **Pruebas automatizadas**: Garantizar la calidad del código.
