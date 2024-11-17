@@ -1,15 +1,15 @@
 # Etapa base
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-# Puerto HTTPS
-EXPOSE 7039
+# Puerto HTTPS (o HTTP según lo que uses)
+EXPOSE 8080
 
 # Etapa de compilación
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["CI_CD.csproj", "./"]
 RUN dotnet restore "./CI_CD.csproj"
-COPY . .
+COPY . . 
 RUN dotnet build "./CI_CD.csproj" -c Release -o /app/build
 
 # Etapa de publicación
@@ -19,5 +19,6 @@ RUN dotnet publish "./CI_CD.csproj" -c Release -o /app/publish
 # Etapa final
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app/publish . 
 ENTRYPOINT ["dotnet", "CI_CD.dll"]
+
